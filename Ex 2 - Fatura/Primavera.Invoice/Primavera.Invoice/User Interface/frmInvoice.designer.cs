@@ -153,7 +153,7 @@
             // 
             this.cmdAdd.Location = new System.Drawing.Point(188, 38);
             this.cmdAdd.Name = "cmdAdd";
-            this.cmdAdd.Size = new System.Drawing.Size(54, 19);
+            this.cmdAdd.Size = new System.Drawing.Size(55, 19);
             this.cmdAdd.TabIndex = 7;
             this.cmdAdd.Text = "Add";
             this.cmdAdd.UseVisualStyleBackColor = true;
