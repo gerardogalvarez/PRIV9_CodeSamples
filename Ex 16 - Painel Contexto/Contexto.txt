@@ -1,0 +1,54 @@
+################################################################################################################
+#
+# Compilar o projecto .NET 
+# Adicionar referencia
+# Colar este codigo num formulário VBA
+#
+################################################################################################################
+
+
+Private m_objCliente As Object
+Private WithEvents m_objNet As PainelContexto.HostWindows
+
+Private Declare Function FindWindow Lib "user32" Alias "FindWindowA" (ByVal lpClassName As String, ByVal lpWindowName As String) As Long
+
+Private Sub m_objNet_OnDrilDown(ByVal codigo As String)
+Dim objCampoDrillDown   As StdBESqlCampoDrillDown
+Dim objParam            As StdBEValoresStr
+
+Set objCampoDrillDown = New StdBESqlCampoDrillDown
+
+    With objCampoDrillDown
+         
+         .ModuloNotificado = "GCP"
+         .Tipo = tddlEventoAplicacao
+         .Evento = "GCP_MOSTRAMANUTENCAO"
+          
+    End With
+
+    Set objParam = New StdBEValoresStr
+    
+    With objParam
+         
+         .InsereNovo "Manutencao", "mnuTabClientes"
+         .InsereNovo "Chave", codigo
+
+    End With
+    
+    
+    PSO.DrillDownLista objCampoDrillDown, objParam
+            
+    Set objCampoDrillDown = Nothing
+    Set objParam = Nothing
+    
+
+End Sub
+
+Private Sub UserForm_Initialize()
+
+    Set m_objNet = New PainelContexto.HostWindows
+    
+    Call m_objNet.Mostra(FindWindow("ThunderDFrame", Me.Caption))
+    Call m_objNet.Redimenciona(FindWindow("ThunderDFrame", Me.Caption))
+    
+End Sub

@@ -1,0 +1,41 @@
+################################################################################################################
+#
+# Compilar o projecto .NET 
+# Adicionar referencia
+# Criar um separador de utilizador na ficha de cliente e colar o codigo abaixo
+#
+################################################################################################################
+
+Private m_objCliente As Object
+Private m_objNet As MyHostWindow.HostWindows
+Private Declare Function FindWindow Lib "user32" Alias "FindWindowA" (ByVal lpClassName As String, ByVal lpWindowName As String) As Long
+
+Public Sub Carrega(Cliente As Variant)
+    
+    Set m_objCliente = BSO.Comercial.Clientes.Edita(Cliente)
+    Set m_objNet.Entidade = m_objCliente
+    
+    m_objNet.Atualiza
+    
+End Sub
+
+Public Sub Grava(Cliente As Variant)
+    'use this method to save dependent data
+End Sub
+
+Public Sub Anula(Cliente As Variant)
+    'use this method to delete dependent data
+End Sub
+
+Public Sub Inicializa()
+ 
+End Sub
+
+Private Sub UserForm_Initialize()
+
+    Set m_objNet = New MyHostWindow.HostWindows
+    
+    Call m_objNet.Mostra(FindWindow("ThunderDFrame", Me.Caption))
+    Call m_objNet.Redimenciona(FindWindow("ThunderDFrame", Me.Caption))
+    
+End Sub

@@ -1,0 +1,67 @@
+
+
+Private Sub CriaFactura_Compras()
+Dim objResumoIva As GcpBEResumoIva
+Dim doc As GcpBEDocumentoVenda
+
+Set objResumoIva = New GcpBEResumoIva
+Set doc = New GcpBEDocumentoVenda
+
+' Preenchimento dados de cabeçalho
+doc.TipoDoc = "FA"
+doc.Serie = "D"
+doc.TipoEntidade = "C"
+doc.Entidade = "Sofrio"
+doc.CalculoManual = True
+
+BSO.Comercial.Vendas.PreencheDadosRelacionados doc
+BSO.Comercial.Vendas.AdicionaLinha doc, "A0001", 1, , , 2101
+
+' Manipluação das linhas sugeridas
+doc.Linhas(1).DescontoComercial = 0
+doc.Linhas(1).Desconto1 = 0
+doc.Linhas(1).Desconto2 = 0
+doc.Linhas(1).Desconto3 = 0
+doc.Linhas(1).TotalDA = 0
+doc.Linhas(1).TotalDC = 0
+doc.Linhas(1).TotalDF = 0
+doc.Linhas(1).TotalIliquido = 2101
+doc.Linhas(1).TotalIva = 483.24
+
+' Preenchimento do resumo de IVA
+objResumoIva.Modulo = "C"
+objResumoIva.TipoDoc = doc.TipoDoc
+objResumoIva.NumDoc = doc.NumDoc
+objResumoIva.Serie = doc.Serie
+objResumoIva.Filial = 0
+objResumoIva.CodIva = 20
+objResumoIva.TaxaIva = 23
+objResumoIva.Incidencia = 2101
+objResumoIva.Valor = 483.24
+
+' Adiciona à coleção.
+' Devem ser criadas tantas linhas quantas as incidencias de IVA (0,6,13,23)
+doc.ResumoIva.Insere objResumoIva
+
+
+' Cabeçalho documento
+doc.Assinatura = "lsdkasdkasldklasdklaskd"
+doc.VersaoAssinatura = 1
+doc.Certificado = "0033"
+doc.DescEntidade = 0
+doc.DescFinanceiro = 0
+
+doc.TotalEcotaxa = 0
+doc.TotalIEC = 0
+doc.TotalIS = 0
+doc.TotalOutros = 0
+doc.TotalDesc = 0
+doc.TotalDocumento = 2584.24
+doc.TotalMerc = 2101
+doc.TotalIva = 483.24
+
+' Atualiza o documento
+BSO.Comercial.Vendas.Actualiza doc
+
+End Sub
+

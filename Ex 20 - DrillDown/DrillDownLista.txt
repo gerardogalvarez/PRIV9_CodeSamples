@@ -1,0 +1,107 @@
+Private Sub DrillDownDocumento()
+Dim objCampoDrillDown   As StdBESqlCampoDrillDown
+Dim objParam            As StdBEValoresStr
+
+Set objCampoDrillDown = New StdBESqlCampoDrillDown
+
+    With objCampoDrillDown
+         
+         .ModuloNotificado = "GCP"
+         .Tipo = tddlEventoAplicacao
+         .Evento = "GCP_EditarDocumento"
+         
+    End With
+
+    Set objParam = New StdBEValoresStr
+    
+    With objParam
+         
+         'O modulo indica qual o editor que vai ser instanciado.
+         '.InsereNovo "Modulo", "V" ' Vendas
+         '.InsereNovo "Modulo", "C" ' Compras
+         '.InsereNovo "Modulo", "N" ' Internos
+         '.InsereNovo "Modulo", "S" ' Stocks
+         '.InsereNovo "Modulo", "M" ' Contas Correntes
+         '.InsereNovo "Modulo", "B" ' Tesouraria
+         
+         .InsereNovo "Modulo", "V"
+         .InsereNovo "Filial", "000"
+         .InsereNovo "Tipodoc", "FA"
+         .InsereNovo "Serie", "A"
+         .InsereNovo "NumDocInt", 22
+    
+    End With
+    
+    
+    PSO.DrillDownLista objCampoDrillDown, objParam
+            
+    Set objCampoDrillDown = Nothing
+    Set objParam = Nothing
+    
+
+End Sub
+
+Private Sub DrillDownManutencao()
+Dim objCampoDrillDown   As StdBESqlCampoDrillDown
+Dim objParam            As StdBEValoresStr
+
+Set objCampoDrillDown = New StdBESqlCampoDrillDown
+
+    With objCampoDrillDown
+         
+         .ModuloNotificado = "GCP"
+         .Tipo = tddlEventoAplicacao
+         .Evento = "GCP_MOSTRAMANUTENCAO"
+          
+    End With
+
+    Set objParam = New StdBEValoresStr
+    
+    With objParam
+         
+         .InsereNovo "Manutencao", "mnuTabClientes"
+         .InsereNovo "Chave", "Sofrio"
+
+    End With
+    
+    
+    PSO.DrillDownLista objCampoDrillDown, objParam
+            
+    Set objCampoDrillDown = Nothing
+    Set objParam = Nothing
+    
+
+End Sub
+
+Private Sub DrillDownExploracao()
+Dim objCampoDrillDown   As StdBESqlCampoDrillDown
+Dim objParam            As StdBEValoresStr
+
+Set objCampoDrillDown = New StdBESqlCampoDrillDown
+
+    With objCampoDrillDown
+         
+         .ModuloNotificado = "GCP"
+         .Tipo = tddlEventoAplicacao
+         .Evento = "GCP_MOSTRAEXPLORACAO"
+
+    End With
+
+    Set objParam = New StdBEValoresStr
+    
+    With objParam
+         
+         .InsereNovo "Exploracao", "mnuExpCCExtracto"
+         .InsereNovo "TipoEntidade", "C"
+         .InsereNovo "Entidade", "Sofrio"
+    
+    End With
+    
+    
+    PSO.DrillDownLista objCampoDrillDown, objParam
+            
+    Set objCampoDrillDown = Nothing
+    Set objParam = Nothing
+    
+
+End Sub

@@ -1,0 +1,12 @@
+Private Sub EditorVendas_DepoisDeEditar()
+Dim objCopia As GcpBEDocumentoVenda
+
+Set objCopia = New GcpBEDocumentoVenda
+
+' Clona o objeto de origem
+Set objCopia = PSO.FuncoesGlobais.ClonaObjecto(Me.DocumentoVenda)
+
+' Adiciona linha ao objeto colonado
+BSO.Comercial.Vendas.AdicionaLinha objCopia, "A0002"
+
+End Sub

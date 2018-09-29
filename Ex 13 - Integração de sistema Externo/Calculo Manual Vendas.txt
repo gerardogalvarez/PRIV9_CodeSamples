@@ -1,0 +1,69 @@
+
+Private Sub CriaFactura_Compras()
+Dim objResumoIva As GcpBEResumoIva
+Dim doc As GcpBEDocumentoVenda
+Dim x As Long
+
+Set objResumoIva = New GcpBEResumoIva
+Set doc = New GcpBEDocumentoVenda
+
+' Preenchimento dados de cabeçalho
+doc.TipoDoc = "FA"
+doc.Serie = "D"
+doc.TipoEntidade = "C"
+doc.Entidade = "Sofrio"
+doc.CalculoManual = True
+
+' Cabeçalho documento - Certificação
+doc.Assinatura = "lsdkasdkasldklasdklaskd"
+doc.VersaoAssinatura = 1
+doc.Certificado = "0033"
+
+' Descontos de Cabeçalho
+doc.DescEntidade = 10
+doc.DescFinanceiro = 0
+
+' Trata linhas
+BSO.Comercial.Vendas.PreencheDadosRelacionados doc
+BSO.Comercial.Vendas.AdicionaLinha doc, "A0001", 1, , , 1000
+
+' Manipluação das linhas sugeridas
+For x = 1 To doc.Linhas.NumItens
+    
+    ' Preço unitário
+    doc.Linhas(x).TotalIliquido = 1000
+    
+    ' Valor em % dos descontos de linha sucessivos.
+    doc.Linhas(x).Desconto1 = 5
+    doc.Linhas(x).Desconto2 = 0
+    doc.Linhas(x).Desconto3 = 0
+    
+    ' Desconto em valor. Resulta dos descontos anteriores
+    doc.Linhas(x).TotalDA = Round((doc.Linhas(x).Desconto1 / 100) * (doc.Linhas(x).TotalIliquido - (doc.Linhas(x).TotalDC + doc.Linhas(x).TotalDF)), 2)
+    
+    ' Total IVA da linha
+    doc.Linhas(x).TotalIva = Round((doc.Linhas(x).TotalIliquido - (doc.Linhas(x).TotalDA + doc.Linhas(x).TotalDF + doc.Linhas(x).TotalDC)) * (doc.Linhas(x).TaxaIva / 100), 2)
+    
+Next x
+
+' Preenchimento do resumo de IVA
+objResumoIva.Modulo = "V"
+objResumoIva.TipoDoc = doc.TipoDoc
+objResumoIva.NumDoc = doc.NumDoc
+objResumoIva.Serie = doc.Serie
+objResumoIva.Filial = 0
+objResumoIva.CodIva = "05"
+objResumoIva.TaxaIva = 6
+objResumoIva.Incidencia = 855
+objResumoIva.Valor = 51.3
+
+' Adiciona à coleção.
+' Devem ser criadas tantas linhas quantas as incidencias de IVA (0,6,13,23)
+doc.ResumoIva.Insere objResumoIva
+
+' Atualiza o documento
+BSO.Comercial.Vendas.Actualiza doc
+
+
+End Sub
+
