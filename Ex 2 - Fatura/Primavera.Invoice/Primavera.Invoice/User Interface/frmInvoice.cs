@@ -106,26 +106,48 @@ namespace Primavera.Invoice
 
                 PriEngine.Engine.Comercial.Vendas.Actualiza(invoice, ref strAvisos);
 
-                PriEngine.Engine.Comercial.Vendas.ImprimeDocumento(invoice.get_Tipodoc(), "C", invoice.get_NumDoc(), "000",1,"",true,"c:\\temp\\demo.pdf");
-
-                if (strAvisos.Length > 0)
+                if(!PriEngine.Engine.Comercial.Vendas.ImprimeDocumento(invoice.get_Tipodoc(), invoice.get_Serie(), invoice.get_NumDoc(), "000", 1, "", true, "c:\\temp\\demo.pdf"))
                 {
-                    MessageBox.Show("Error writing document. \n" + strAvisos);
+                    MessageBox.Show(string.Format("Error printing document {0}.\n Message: {1}", GetDocName(invoice), strAvisos));
+                }
+                else if (strAvisos.Length > 0)
+                {
+                    MessageBox.Show(string.Format("Alert printing document {0}.\n Warnings: {1}", GetDocName(invoice), strAvisos));
                 }
                 else
                 {
-                    MessageBox.Show("Document saved with success.");
+                    MessageBox.Show(string.Format("Document {0} printed with success.", GetDocName(invoice)));
+                }
+
+                // PriEngine.Engine.Comercial.LigacaoCBL.IntegraDocumentoLogCBLEX("V", invoice.get_Tipodoc(), invoice.get_Serie(), invoice.get_NumDoc(), "000", Avisos: strAvisos)
+
+                strAvisos = string.Empty;
+
+                PriEngine.Engine.Comercial.LigacaoCBL.IntegraDocumentoLogCBL("V", invoice.get_Tipodoc(), invoice.get_Serie(), invoice.get_NumDoc(), "000", Avisos: strAvisos);
+
+                if (!string.IsNullOrEmpty( strAvisos))
+                {
+                    MessageBox.Show("Document linked to CBL. \n");
+                }
+                else
+                {
+                    MessageBox.Show("Error linking document CBL!!! \n" + strAvisos);
                 }
 
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Unable to save document. \n" + ex.Message);
+                MessageBox.Show(string.Format("Unable to save document {0}.\n Message: {1}.", GetDocName(invoice), ex.Message));
             }
             finally
             {
 
             }
+        }
+
+        private object GetDocName(GcpBEDocumentoVenda invoice)
+        {
+            return String.Format("{0} {1}/{2}", invoice.get_Tipodoc(), invoice.get_Serie(), invoice.get_NumDoc().ToString());
         }
 
         /// <summary>

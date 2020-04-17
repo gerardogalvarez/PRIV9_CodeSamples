@@ -1,0 +1,23 @@
+' Crear un nuevo módulo "ExternalDLL" y copiar el siguiente código:
+
+
+Option Explicit
+
+' Variable para instanciar nuestra DLL:
+Dim myExternalDLL   As Object
+
+Public Sub ShowMyExternalForm()
+
+    If myExternalDLL Is Nothing Then
+    
+        ' Instanciamos nuestra DLL .NET a través del "Proxy":
+        Set myExternalDLL = CreateObject("ExternalDLL.Proxy")
+        
+        ' Pasamos el "contexto": motores (engine) y Plataforma
+        myExternalDLL.setERPContext BSO, PlataformaPRIMAVERA
+    End If
+    
+    ' Muestra el formulario:
+    myExternalDLL.showForm1
+    
+End Sub

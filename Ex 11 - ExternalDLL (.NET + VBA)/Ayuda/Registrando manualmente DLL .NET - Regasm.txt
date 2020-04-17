@@ -1,0 +1,3 @@
+cd "C:\Users\VMWIN7X86\Code Samples\ExternalDLL\ExternalDLL\bin\Debug\"
+
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\regasm.exe ExternalDLL.dll /codebase

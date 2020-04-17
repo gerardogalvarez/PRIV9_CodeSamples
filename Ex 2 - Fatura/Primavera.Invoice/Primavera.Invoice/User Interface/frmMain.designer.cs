@@ -133,7 +133,7 @@
             this.txtempresa.Name = "txtempresa";
             this.txtempresa.Size = new System.Drawing.Size(323, 20);
             this.txtempresa.TabIndex = 0;
-            this.txtempresa.Text = "DEMO";
+            this.txtempresa.Text = "GI2018";
             // 
             // txtuser
             // 
@@ -141,7 +141,7 @@
             this.txtuser.Name = "txtuser";
             this.txtuser.Size = new System.Drawing.Size(130, 20);
             this.txtuser.TabIndex = 0;
-            this.txtuser.Text = "sergio.sereno";
+            this.txtuser.Text = "gerardo.gomez";
             // 
             // groupBox3
             // 
